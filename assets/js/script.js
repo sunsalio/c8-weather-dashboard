@@ -1,6 +1,7 @@
 //  add background colour, font colour, centre to heading 
 var headerEl = $(".header");
 var buttonEl = $("#search-button");
+var todayEl = $("#today");
 
 headerEl.css({ "background-color": "#0C629B ", "color": "#FEF9CE", "text-align": "center", "borderRadius": "25px", "padding": "0.5px"});
 
@@ -20,14 +21,38 @@ buttonEl.on("click", function (event) {
      event.preventDefault();
      cityInput = $("#search-input").val();
      currentQueryURL = currentApiURL+ "q=" + cityInput + key;
-     console.log(currentQueryURL)
+     // console.log(currentQueryURL)
      
      fetch(currentQueryURL).then(function (response) {
           return response.json();
      }).then(function (data) {
           console.log(data);
-     })
+          // empty input area
+     
 
+     // adds current weather section 
+     var today = dayjs();
+     var cityName = $("<h2>").text(data.name + today.format(" (DD/MM/YYYY)"))
+     todayEl.append(cityName)
+
+
+     // create p tags, add text + data file path and append to class
+     var temp = $("<p>").text("Temp: " + data.main.temp + "°C");
+     todayEl.append(temp);
+
+     var wind = $("<p>").text("Wind: " + data.wind.speed + "m/s");
+     todayEl.append(wind);
+
+     var humidity = $("<p>").text("Humidity: " + data.main.humidity + "%");
+     todayEl.append(humidity);
+
+     todayEl.css({"border": '1px solid black', "padding": "2px 5px"});
+
+
+
+
+     })
+     
 });
 
 // forecastQueryURL = forecastApiURL + "q=" + cityInput + key;
