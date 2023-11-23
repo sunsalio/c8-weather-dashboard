@@ -4,6 +4,7 @@ var buttonEl = $("#search-button");
 var todayEl = $("#today");
 var forecastEl = $("#forecast");
 var historyEl = $("#history");
+var searchHistory = [];
 
 // headerEl.css({ "background-color": "#0C629B ", "color": "#FEF9CE", "text-align": "center", "borderRadius": "25px", "padding": "0.5px"});
 
@@ -25,11 +26,62 @@ buttonEl.on("click", function (event) {
           // function that fetches current weather
           fetchWeatherData(cityInput, todayEl);
           // fetch forecast data
-          fetchForecastData(cityInput, forecastEl);
+          // fetchForecastData(cityInput, forecastEl);
           // function that adds city to search history
           addHistory(cityInput);
      }
 });
+
+// function that adds the city input to search history
+ historyEl.on("click", ".list-group-item", function () {
+     var city = $(this).text().trim();
+     fetchWeatherData(city, todayEl);
+     fetchForecastData(city, forecastEl);
+ });
+
+ function addHistory(city) {
+     if (!searchHistory.includes(city)) {
+          // prepend does not work for arrays use unshift instead
+          searchHistory.unshift(city);
+          localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+          renderSearchHistory();
+     }
+ }
+
+ function renderSearchHistory() {
+     historyEl.empty();
+     searchHistory.forEach(function (city) {
+          var historyItem = $("<a>").addClass("list-group-item").text(city);
+          historyEl.prepend(historyItem)
+     });
+ }
+
+ function fetchWeatherData(city, todayEl) {
+     var currentApiURL = "https://api.openweathermap.org/data/2.5/weather?"
+     var key = "&appid=4b17256124fe4b45a926122e6d82cd99&units=metric"
+     
+     cityInput = $("#search-input").val();
+
+     currentQueryURL = currentApiURL+ "q=" + cityInput + key;
+     
+     fetch(currentQueryURL).then (function (response) {
+          return response.json();
+     }).then(function (data) {
+          console.log(data);
+
+     todayEl.empty(); // clear previous content
+     var cityName = $("<h2>").text(data.name);
+     var date = $("<p>").text("Date: " + dayjs().format("DD/MM/YYYY"));
+     var iconURL = "https://openweathermap.org/img/wn/" + data.weather[0].icon + ".png";
+     var icon = $("<img>").attr("src", iconURL);
+     var temperature = $("<p>").text("Temperature: " + data.main.temp + "°C");
+     var humidity = $("<p>").text("Humidity: " + data.main.humidity + "%");
+     var windspeed = $("<p>").text("Wind Speed: " + data.wind.speed + "m/s");
+
+     todayEl.append(cityName, date, icon, temperature, humidity, windspeed);
+})
+
+ }
 
 // buttonEl.on("click", function (event) {
 //      event.preventDefault();
