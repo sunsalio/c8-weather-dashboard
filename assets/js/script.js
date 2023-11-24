@@ -26,7 +26,7 @@ buttonEl.on("click", function (event) {
           // function that fetches current weather
           fetchWeatherData(cityInput, todayEl);
           // fetch forecast data
-          // fetchForecastData(cityInput, forecastEl);
+          fetchForecastData(cityInput, forecastEl);
           // function that adds city to search history
           addHistory(cityInput);
      }
@@ -56,7 +56,7 @@ buttonEl.on("click", function (event) {
      });
  }
 
- function fetchWeatherData(city, todayEl) {
+ function fetchWeatherData(cityInput, todayEl) {
      var currentApiURL = "https://api.openweathermap.org/data/2.5/weather?"
      var key = "&appid=4b17256124fe4b45a926122e6d82cd99&units=metric"
      
@@ -83,9 +83,37 @@ buttonEl.on("click", function (event) {
 
  }
 
-// buttonEl.on("click", function (event) {
-//      event.preventDefault();
-//      cityInput = $("#search-input").val();
+ function fetchForecastData(cityInput, forecastEl) {
+     var forecastApiURL = "https://api.openweathermap.org/data/2.5/forecast?";
+     var key = "&appid=4b17256124fe4b45a926122e6d82cd99&units=metric"
+     cityInput = $("#search-input").val();
+     forecastQueryURL = forecastApiURL + "q=" + cityInput + key;
+     fetch(forecastQueryURL).then (function (response) {
+          return response.json();
+     }).then(function (data) {
+          console.log(data);
+
+     forecastEl.empty();
+     var forecastTitle = $("<h2>").text("5 Day Forecast");
+     forecastEl.append(forecastTitle);
+
+     // use for loop to access data as opposed to seperate for all 5 days
+     // instead of i++ ive employed i+= 8 so that the for loop runs on every 8th value
+     for (var i = 0; i < data.list.length; i += 8) {
+         var forecastItem = data.list[i];
+         var date = dayjs(forecastItem.dt_txt).format("DD/MM/YYYY");
+         var iconURL = "https://openweathermap.org/img/wn/" + forecastItem.weather[0].icon + ".png";
+         var icon = $("<img>").attr("src", iconURL);
+         var temperature = $("<p>").text("Temperature: " + forecastItem.main.temp + "°C");
+         var humidity = $("<p>").text("Humidity: " + forecastItem.main.humidity + "%");
+
+         var forecastDay = $("<div>").addClass("forecast-day");
+         forecastDay.append($("<h3>").text(date), icon, temperature, humidity);
+         forecastEl.append(forecastDay);
+     }
+})
+ }
+          
 //      currentQueryURL = currentApiURL+ "q=" + cityInput + key;
 //      // console.log(currentQueryURL)
      
