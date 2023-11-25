@@ -1,0 +1,107 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	/* margin: 0;
+	padding: 0;
+	border: 0; */
+	/* font-size: 100%; */
+	/* font : inherit; */
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	/* vertical-align: baseline; */
+}
+
+	
+  /* Header Styles */
+  .weather-header {
+	background-color: #343a40;
+  }
+  
+  .weather-header h1 {
+	font-size: 2rem;
+  }
+  
+  /* Search Form Styles */
+  aside.col-lg-3 {
+	background-color: #f8f9fa;
+	padding: 20px;
+	border-radius: 10px;
+  }
+  
+  .form {
+	margin-top: 20px;
+  }
+  
+  .weather-search {
+	width: 100%;
+  }
+  
+  .search-button {
+	width: 100%;
+	margin-top: 10px;
+  }
+  
+  .hr.weather-hr {
+	margin-top: 10px;
+  }
+  
+  /* History Styles */
+  #history {
+	margin-top: 20px;
+  }
+  
+  .list-group-item-action {
+	cursor: pointer;
+  }
+  
+  /* Current Weather Styles */
+  #today {
+	background-color: #f8f9fa;
+	padding: 20px;
+	border-radius: 10px;
+	margin-top: 20px;
+  }
+  
+  /* Forecast Styles */
+  #forecast {
+	margin-top: 20px;
+  }
+  
+  .forecastHeading {
+	text-align: center;
+  }
+  
+  .forecast-day {
+	background-color: #f8f9fa;
+	padding: 15px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+	aside.col-lg-3 {
+	  margin-bottom: 20px;
+	}
+  
+	#today,
+	#forecast {
+	  margin-left: 0;
+	}
+  }
+
+
